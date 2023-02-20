@@ -56,7 +56,7 @@ bool found = false;
 //if it isnt continue the loop
 
 //for each neighbour of currentNode
-foreach (Node neighbour in currentNode.neighbour)
+foreach (Node neighbour in currentNode.neighbours)
 {
     //check if its on teh stack
     if (nodeStack.Contains(neighbour))
