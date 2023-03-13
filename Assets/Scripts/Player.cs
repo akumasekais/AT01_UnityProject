@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
         //for instance has three parents
         foreach (Node node in GameManager.Instance.Nodes)
         {
-            if(node.Parents.Length > 2 && node.Children.Length == 0)
+            if(node.Parents.Length >    2 && node.Children.Length == 0)
             {
                 CurrentNode = node;
                 break;
@@ -34,13 +34,19 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+       if (Input.GetButtonDown("Fire1"))
+        {
+            MouseInput();
+            Debug.Log("Click");
+        }
         if (moving == false)
         {
+
             //detect if movement
             //check if any events receieved from the buttons if so, which node is the current node, set moving to true. if moving is true well go to else, say that our distance.
             //if distance is greater than 0.25f. When the game starts the player will be sitting, moving will set to false until a button is pressed.
             //Implement inputs and event-callbacks here
+            
         }
         else
         {
@@ -56,7 +62,23 @@ public class Player : MonoBehaviour
         }
     }
 
+
+    public void MouseInput()
+    {
+        RaycastHit ray;
+        if (Physics.Raycast(Input.mousePosition, Vector3.forward, out ray, 10f))
+        {
+            if (ray.collider.gameObject.tag == "Button")
+            {
+                Debug.Log("Button Detected");
+            }
+        }
+  
+    }
     //Implement mouse interaction method here
+    //ifobject in UI which mouse is over is tagged 'button
+    //call the input(direction) method
+    //invoke' change colour' event
     //kinda relates to raycasting, how can you have a raycast from our cursor position where it is on screen and work out if mouse is covering something. mouse distance from 3d object.
 
 

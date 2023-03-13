@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/*
 public class DepthFirstSearch : MonoBehaviour
 {
     // list stack variable
@@ -122,7 +122,7 @@ while (currentNode != null)
         return pathlist;
     }
 }
-/*
+
 // otherwise return the path value
 pathList.Insert(0, currentNode);
 
