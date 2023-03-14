@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 {
     //Define delegate types and events here
 
-    public Node CurrentNode { get; private set; }
+    public Node CurrentNode { get; set; }
     public Node TargetNode { get; private set; }
 
     [SerializeField] private float speed = 4;

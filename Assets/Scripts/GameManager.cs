@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     //Stores all the nodes
     [SerializeField] private Node[] nodes;
     //Stores reference to the player
-    [SerializeField] private Player player;
+    [SerializeField] public Player player;
 
     public Node[] Nodes { get { return nodes; } }
     public Player Player { get { return player; } }

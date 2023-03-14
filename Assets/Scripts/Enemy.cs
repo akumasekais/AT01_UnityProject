@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -9,14 +11,16 @@ public class Enemy : MonoBehaviour
     private Node currentNode;
     private Vector3 currentDir;
     private bool playerCaught = false;
- 
+
     public delegate void GameEndDelegate();
     public event GameEndDelegate GameOverEvent = delegate { };
+    bool targetfound = false;
 
     // Start is called before the first frame update
     void Start()
     {
         InitializeAgent();
+        Debug.Log("test");
     }
 
     // Update is called once per frame
@@ -31,7 +35,7 @@ public class Enemy : MonoBehaviour
                 {
                     transform.Translate(currentDir * speed * Time.deltaTime);
                 }
-                else;
+                else
                 {
                     DepthFirstSearch();
                     //Implement path finding algorithm here + invoke the method: call it here
@@ -77,58 +81,79 @@ public class Enemy : MonoBehaviour
         //finding two vectors for direction is dir = b - a
         //finding two vector for distance is distance = a - b
     }
-}
+
 
 
     //Implement DFS algorithm method here
-    
-    private void DepthFirstSearch()
-    {
-        Player player = GameManager.Instance.Player; //LOCAL VARIABLE 'PLAYER' = GAMEMANAGER.INSTANCE.PLAYER
-        Node Nodes = GameManager.Instance.nodes();//DO SAME FOR LIST OF NODES
-        Node nodeCurrentlyUnsearched;  //LOCAL VARIABLE 'NODE BEING SEARCHED'
-        Node UnsearchedNodes;
-    
-        //boolean for target found
-        private bool targetFound;
 
-        while not (targetFound == false)
+    void DepthFirstSearch()
+    {
+        Debug.Log("1");
+       Player player = GameManager.Instance.Player; //LOCAL VARIABLE 'PLAYER' = GAMEMANAGER.INSTANCE.PLAYER
+                                                     // Node Node = GameManager.Instance.Nodes[0];//DO SAME FOR LIST OF NODES
+        Node nodeCurrentlyUnsearched;
+        Debug.Log("2");//LOCAL VARIABLE 'NODE BEING SEARCHED'
+        List<Node> searchedNodes = new List<Node>();
+        Debug.Log("3");
+        List<Node> UnsearchedNodes = GameManager.Instance.Nodes.ToList();
+
+
+       
+
+
+        /*while (!targetfound)
         {
-            if (UnsearchedNodes.Count == 0)
+            Debug.Log("Looking for target");
+            if (UnsearchedNodes.Count <= 0)
             {
-                Node nodeCurrentlyUnsearched = UnsearchedNodes[UnsearchedNodes.Count - 1]; 
+                Debug.Log("I am not supposed to be here");
+                nodeCurrentlyUnsearched = currentNode;
                 //1. take the last item in unsearched nodes list and assign it to node current unsearched'
-                
+
                 if (nodeCurrentlyUnsearched == GameManager.Instance.Player.TargetNode) //Check if nodeCurrentlyUnsearched is the same as either the target node of the player
                 {
                     nodeCurrentlyUnsearched.searched = true; //nodeCurrentlyUnsearched.searched = true;
 
-                // Assign nodeCurrentlyUnsearched to current node
-                    GameManager.Instance.Player.currentNode = nodeCurrentlyUnsearched;
-                // Break the loop and finish the method
-                    targetFound = true;
+                    // Assign nodeCurrentlyUnsearched to current node
+                    player.CurrentNode = nodeCurrentlyUnsearched;
+                    // Break the loop and finish the method
+                    targetfound = true;
                 }
-                else
-                {
-                    // Set the searched property of the node to true
+              
+            }
+            else
+            {
+                Debug.Log("ABOUT TO SEARCH");
+                // Set the searched property of the node to true
 
-                    nodeCurrentlyUnsearched.searched = true;
-                
-                    // 3. Use a for loop to add each child of nodeCurrentlyUnsearched to unsearched nodes list
-                    foreach (Node childNode in currentNode.Children)
+                //nodeCurrentlyUnsearched.searched = true;
+
+                // 3. Use a for loop to add each child of nodeCurrentlyUnsearched to unsearched nodes list
+                foreach (Node childNode in currentNode.Children)
+                {
+                    Debug.Log("Searching for children");
+                    if (childNode.searched == false)
                     {
-                        if (childNode.searched = false)
-                        {
-                            UnsearchedNodes.Add(childNode);
-                        }
+                        searchedNodes.Add(childNode);
+                        childNode.searched = true;
                     }
 
-                    // 4. Remove nodeCurrentlyUnsearched from unsearched nodes list
-                    UnsearchedNodes.Remove(currentNode);
                 }
+
+                // 4. Remove nodeCurrentlyUnsearched from unsearched nodes list
+                UnsearchedNodes.Remove(currentNode);
+                Debug.Log(UnsearchedNodes.Count);
+
+                if (UnsearchedNodes.Count > 0)
+                    currentNode = GameManager.Instance.Nodes[0];
             }
-        //}   
+
+        }*/
+
+
+
     }
+}
 
 
 
