@@ -90,7 +90,7 @@ public class Enemy : MonoBehaviour
     {
         Debug.Log("1");
        Player player = GameManager.Instance.Player; //LOCAL VARIABLE 'PLAYER' = GAMEMANAGER.INSTANCE.PLAYER
-                                                     // Node Node = GameManager.Instance.Nodes[0];//DO SAME FOR LIST OF NODES
+      // Node Node = GameManager.Instance.Nodes[0];//DO SAME FOR LIST OF NODES
         Node nodeCurrentlyUnsearched;
         Debug.Log("2");//LOCAL VARIABLE 'NODE BEING SEARCHED'
         List<Node> searchedNodes = new List<Node>();
@@ -101,7 +101,7 @@ public class Enemy : MonoBehaviour
        
 
 
-        /*while (!targetfound)
+         while (!targetfound)
         {
             Debug.Log("Looking for target");
             if (UnsearchedNodes.Count <= 0)
@@ -124,6 +124,13 @@ public class Enemy : MonoBehaviour
             else
             {
                 Debug.Log("ABOUT TO SEARCH");
+
+                currentNode = UnsearchedNodes[0];
+
+                UnsearchedNodes.RemoveAt(0);
+
+                currentNode.searched = true;
+
                 // Set the searched property of the node to true
 
                 //nodeCurrentlyUnsearched.searched = true;
@@ -132,7 +139,7 @@ public class Enemy : MonoBehaviour
                 foreach (Node childNode in currentNode.Children)
                 {
                     Debug.Log("Searching for children");
-                    if (childNode.searched == false)
+                    if (!childNode.searched)
                     {
                         searchedNodes.Add(childNode);
                         childNode.searched = true;
@@ -148,9 +155,7 @@ public class Enemy : MonoBehaviour
                     currentNode = GameManager.Instance.Nodes[0];
             }
 
-        }*/
-
-
+        }
 
     }
 }
