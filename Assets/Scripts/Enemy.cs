@@ -101,16 +101,16 @@ public class Enemy : MonoBehaviour
        
 
 
-         while (!targetfound)
+         while (!targetfound && searchedNodes.Count > 0)
         {
             Debug.Log("Looking for target");
-            if (UnsearchedNodes.Count <= 0)
+            if (searchedNodes.Count <= 0)
             {
                 Debug.Log("I am not supposed to be here");
                 nodeCurrentlyUnsearched = currentNode;
                 //1. take the last item in unsearched nodes list and assign it to node current unsearched'
 
-                if (nodeCurrentlyUnsearched == GameManager.Instance.Player.TargetNode) //Check if nodeCurrentlyUnsearched is the same as either the target node of the player
+                if (nodeCurrentlyUnsearched == player.TargetNode) //Check if nodeCurrentlyUnsearched is the same as either the target node of the player
                 {
                     nodeCurrentlyUnsearched.searched = true; //nodeCurrentlyUnsearched.searched = true;
 
@@ -148,7 +148,7 @@ public class Enemy : MonoBehaviour
                 }
 
                 // 4. Remove nodeCurrentlyUnsearched from unsearched nodes list
-                UnsearchedNodes.Remove(currentNode);
+                searchedNodes.Remove(currentNode);
                 Debug.Log(UnsearchedNodes.Count);
 
                 if (UnsearchedNodes.Count > 0)
