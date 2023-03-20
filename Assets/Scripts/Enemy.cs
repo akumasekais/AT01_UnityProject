@@ -88,48 +88,55 @@ public class Enemy : MonoBehaviour
 
     void DepthFirstSearch()
     {
+
+        targetfound = false;
        
        Player player = GameManager.Instance.Player; //LOCAL VARIABLE 'PLAYER' = GAMEMANAGER.INSTANCE.PLAYER
       // Node Node = GameManager.Instance.Nodes[0];//DO SAME FOR LIST OF NODES
-        Node nodeCurrentlyUnsearched;
+        Node nodeCurrentlyBeingSearched;
        
+        //don't need this
         List<Node> searchedNodes = new List<Node>();
      
-        List<Node> UnsearchedNodes = GameManager.Instance.Nodes.ToList();
+        List<Node> Stack = new List<Node>();
 
+        Stack.Add(GameManager.Instance.Nodes[0]);
+            //GameManager.Instance.Nodes.ToList();
 
-       
-
-
-         while (!targetfound && searchedNodes.Count > 0)
+         while (!targetfound)
         {
            
-            if (searchedNodes.Count <= 0)
+            if (Stack.Count() > 0)
             {
-               
-                nodeCurrentlyUnsearched = currentNode;
-                //1. take the last item in unsearched nodes list and assign it to node current unsearched'
+               //1. take the last item in unsearched nodes list and assign it to node current unsearched'
+                nodeCurrentlyBeingSearched = Stack[Stack.Count - 1];                
 
-                if (nodeCurrentlyUnsearched == player.TargetNode) //Check if nodeCurrentlyUnsearched is the same as either the target node of the player
+                if (nodeCurrentlyBeingSearched == player.TargetNode) //Check if nodeCurrentlyUnsearched is the same as either the target node of the player
                 {
-                    nodeCurrentlyUnsearched.searched = true; //nodeCurrentlyUnsearched.searched = true;
+                    nodeCurrentlyBeingSearched.searched = true; //nodeCurrentlyUnsearched.searched = true;
 
                     // Assign nodeCurrentlyUnsearched to current node
-                    player.CurrentNode = nodeCurrentlyUnsearched;
+                    currentNode = nodeCurrentlyBeingSearched;
+                    currentDir = currentNode.transform.position - transform.position;
+                    //giving vectro with a magnitude of 1, takes all values and it becomes a float between 0 and 1
+                    //its important to normalize because it gives consistent 
+                    currentDir = currentDir.normalized;
+
                     // Break the loop and finish the method
                     targetfound = true;
                 }
               
             }
+
+            //doesn't need to be an else statement here
             else
-            {
-                
+            {               
+                /*
+                currentNode = Stack[0];
 
-                currentNode = UnsearchedNodes[0];
+                Stack.RemoveAt(0);
 
-                UnsearchedNodes.RemoveAt(0);
-
-                currentNode.searched = true;
+                currentNode.searched = true;*/
 
                 // Set the searched property of the node to true
 
@@ -149,9 +156,9 @@ public class Enemy : MonoBehaviour
 
                 // 4. Remove nodeCurrentlyUnsearched from unsearched nodes list
                 searchedNodes.Remove(currentNode);
-                Debug.Log(UnsearchedNodes.Count);
+                Debug.Log(Stack.Count);
 
-                if (UnsearchedNodes.Count > 0)
+                if (Stack.Count > 0)
                     currentNode = GameManager.Instance.Nodes[0];
             }
 
