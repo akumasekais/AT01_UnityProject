@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         InitializeAgent();
-        Debug.Log("test");
+        
     }
 
     // Update is called once per frame
@@ -88,13 +88,13 @@ public class Enemy : MonoBehaviour
 
     void DepthFirstSearch()
     {
-        Debug.Log("1");
+       
        Player player = GameManager.Instance.Player; //LOCAL VARIABLE 'PLAYER' = GAMEMANAGER.INSTANCE.PLAYER
       // Node Node = GameManager.Instance.Nodes[0];//DO SAME FOR LIST OF NODES
         Node nodeCurrentlyUnsearched;
-        Debug.Log("2");//LOCAL VARIABLE 'NODE BEING SEARCHED'
+       
         List<Node> searchedNodes = new List<Node>();
-        Debug.Log("3");
+     
         List<Node> UnsearchedNodes = GameManager.Instance.Nodes.ToList();
 
 
@@ -103,10 +103,10 @@ public class Enemy : MonoBehaviour
 
          while (!targetfound && searchedNodes.Count > 0)
         {
-            Debug.Log("Looking for target");
+           
             if (searchedNodes.Count <= 0)
             {
-                Debug.Log("I am not supposed to be here");
+               
                 nodeCurrentlyUnsearched = currentNode;
                 //1. take the last item in unsearched nodes list and assign it to node current unsearched'
 
@@ -123,7 +123,7 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                Debug.Log("ABOUT TO SEARCH");
+                
 
                 currentNode = UnsearchedNodes[0];
 
@@ -138,7 +138,7 @@ public class Enemy : MonoBehaviour
                 // 3. Use a for loop to add each child of nodeCurrentlyUnsearched to unsearched nodes list
                 foreach (Node childNode in currentNode.Children)
                 {
-                    Debug.Log("Searching for children");
+                    
                     if (!childNode.searched)
                     {
                         searchedNodes.Add(childNode);
