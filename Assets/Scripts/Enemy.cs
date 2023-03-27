@@ -98,22 +98,29 @@ public class Enemy : MonoBehaviour
         //don't need this
         List<Node> searchedNodes = new List<Node>();
      
-        List<Node> Stack = new List<Node>();
+        List<Node> stack = new List<Node>();
 
-        Stack.Add(GameManager.Instance.Nodes[0]);
-            //GameManager.Instance.Nodes.ToList();
+        stack.Add(GameManager.Instance.Nodes[0]);
+        //GameManager.Instance.Nodes.ToList();
 
-         while (!targetfound)
+        Debug.Log("Player's Target node is: " + player.TargetNode.name);
+        Debug.Log("Player's currentnode is: " + player.CurrentNode.name);
+
+        while (!targetfound)
         {
-           
-            if (Stack.Count() > 0)
-            {
-               //1. take the last item in unsearched nodes list and assign it to node current unsearched'
-                nodeCurrentlyBeingSearched = Stack[Stack.Count - 1];                
 
-                if (nodeCurrentlyBeingSearched == player.TargetNode) //Check if nodeCurrentlyUnsearched is the same as either the target node of the player
+            nodeCurrentlyBeingSearched = stack[stack.Count - 1];
+
+            if (stack.Count() > 0)
+            {
+                //1. take the last item in unsearched nodes list and assign it to node current unsearched'
+
+                //Check if nodeCurrentlyUnsearched is the same as either the target node of the player
+                if (nodeCurrentlyBeingSearched == player.CurrentNode || nodeCurrentlyBeingSearched == player.TargetNode) 
                 {
-                    nodeCurrentlyBeingSearched.searched = true; //nodeCurrentlyUnsearched.searched = true;
+                    //nodeCurrentlyBeingSearched.searched = true; //nodeCurrentlyUnsearched.searched = true;
+
+                    Debug.Log("Found the target. It is: " + nodeCurrentlyBeingSearched.name);
 
                     // Assign nodeCurrentlyUnsearched to current node
                     currentNode = nodeCurrentlyBeingSearched;
@@ -121,49 +128,62 @@ public class Enemy : MonoBehaviour
                     //giving vectro with a magnitude of 1, takes all values and it becomes a float between 0 and 1
                     //its important to normalize because it gives consistent 
                     currentDir = currentDir.normalized;
-
-                    // Break the loop and finish the method
                     targetfound = true;
+                    break;
+                    //asdasd
+                    // Break the loop and finish the method
+                   
                 }
-              
+                else
+                {
+                    Debug.Log("Adding children to stack.");
+                    foreach (Node childNode in nodeCurrentlyBeingSearched.Children)
+                    {
+
+                        if (!childNode.searched)
+                        {
+                            stack.Add(childNode);
+                            childNode.searched = true;
+                        }
+                        
+                        //Debug.Log(stack.Count);
+
+                       /* if (stack.Count > 0)
+                            currentNode = GameManager.Instance.Nodes[0];*/
+                    }
+                }
+                stack.Remove(nodeCurrentlyBeingSearched);
+
             }
+            else
+            {
+                Debug.Log("Didn't find the target. Exhausted all options. Exiting.");
+                break;
+            }
+
 
             //doesn't need to be an else statement here
-            else
-            {               
-                /*
-                currentNode = Stack[0];
+            //else
+            //searchedNodes.Add(nodeCurrentlyBeingSearched); //add nodecurrentlybeingsearcehd to the searchednodes list
+            /*
+            currentNode = Stack[0];
 
-                Stack.RemoveAt(0);
+            Stack.RemoveAt(0);
 
-                currentNode.searched = true;*/
+            currentNode.searched = true;*/
 
-                // Set the searched property of the node to true
+            // Set the searched property of the node to true
 
-                //nodeCurrentlyUnsearched.searched = true;
+            //nodeCurrentlyUnsearched.searched = true;
 
-                // 3. Use a for loop to add each child of nodeCurrentlyUnsearched to unsearched nodes list
-                foreach (Node childNode in currentNode.Children)
-                {
-                    
-                    if (!childNode.searched)
-                    {
-                        searchedNodes.Add(childNode);
-                        childNode.searched = true;
-                    }
+            // 3. Use a for loop to add each child of nodeCurrentlyUnsearched to unsearched nodes list
 
-                }
 
-                // 4. Remove nodeCurrentlyUnsearched from unsearched nodes list
-                searchedNodes.Remove(currentNode);
-                Debug.Log(Stack.Count);
+            // 4. Remove nodeCurrentlyUnsearched from unsearched nodes list
 
-                if (Stack.Count > 0)
-                    currentNode = GameManager.Instance.Nodes[0];
-            }
+
 
         }
-
     }
 }
 

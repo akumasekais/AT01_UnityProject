@@ -23,9 +23,10 @@ public class Player : MonoBehaviour
         //for instance has three parents
         foreach (Node node in GameManager.Instance.Nodes)
         {
-            if(node.Parents.Length >    2 && node.Children.Length == 0)
+            if(node.Parents.Length > 2 && node.Children.Length == 0)
             {
                 CurrentNode = node;
+                TargetNode = node;
                 break;
             }
         }
