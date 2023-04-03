@@ -6,19 +6,36 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     //Define delegate types and events here
-
+    private MeshRenderer meshRenderer;
     public Node CurrentNode { get; set; }
     public Node TargetNode { get; private set; }
 
+    [SerializeField] Material greenMat;
+
     [SerializeField] private float speed = 4;
+
+    public List<Player> neighbours = new List<Player>();
+
+    [SerializeField] List<Vector3> neighbourDirections = new List<Vector3>();
    
-    private bool moving = false;
     //similar movement to ai without the pathfinding algorithm, wasd
     private Vector3 currentDir;
+    public Player pathNode { get; private set; }
 
+    private bool moving;
+
+    private void Awake()
+    {
+        moving = false;
+        if(!TryGetComponent<MeshRenderer>(out meshRenderer))
+        {
+            Debug.Log("You need to attach a MeshRender to this object");
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
+       // MoveToNode(); 
         //access game manager instnace and it goes throguh all nodes that contain nodes list adn checks if the amount of children is equal to 0, essentially grab one nodes 6
         //for instance has three parents
         foreach (Node node in GameManager.Instance.Nodes)
@@ -34,7 +51,7 @@ public class Player : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {/*
        if (Input.GetButtonDown("Fire1"))
         {
             MouseInput();
@@ -60,6 +77,23 @@ public class Player : MonoBehaviour
                 moving = false;
                 CurrentNode = TargetNode;
             }
+        }*/
+    }
+    private void FindNeighbours()
+    {
+        RaycastHit hit;
+        Player gridNode;
+
+        for(int i = 0; i < neighbourDirections.Count; i++)
+        {
+            if(Physics.Raycast(transform.position, neighbourDirections[i], out hit, 2f))
+            {
+                if (hit.collider.TryGetComponent<Player>(out gridNode))
+                {
+                    neighbours.Add(gridNode);
+                }
+                     
+            }
         }
     }
 
@@ -67,7 +101,7 @@ public class Player : MonoBehaviour
     public void MouseInput()
     {
         RaycastHit ray;
-        if (Physics.Raycast(Input.mousePosition, Vector3.forward, out ray, 10f))
+        if (Physics.Raycast(Input.mousePosition, Vector3.forward, out ray, 2f))
         {
             if (ray.collider.gameObject.tag == "Button")
             {
@@ -87,14 +121,18 @@ public class Player : MonoBehaviour
     /// Sets the players target node and current directon to the specified node.
     /// </summary>
     /// <param name="node"></param>
-    public void MoveToNode(Node node)
+   /* public void MoveToNode(Node node)
     {
-        if (moving == false)
+        CurrentNode = TargetNode; //update the current node index
+        //move to the next node
+
+        
+        if (moving == true)
         {
             TargetNode = node;
             currentDir = TargetNode.transform.position - transform.position;
             currentDir = currentDir.normalized;
             moving = true;
         }
-    }
+    }*/
 }
