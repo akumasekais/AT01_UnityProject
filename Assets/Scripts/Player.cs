@@ -14,16 +14,21 @@ public class Player : MonoBehaviour
 
     [SerializeField] private float speed = 4;
 
-    public List<Player> neighbours = new List<Player>();
+    //public List<Player> neighbours = new List<Player>();
 
-    [SerializeField] List<Vector3> neighbourDirections = new List<Vector3>();
+    //[SerializeField] List<Vector3> neighbourDirections = new List<Vector3>();
    
     //similar movement to ai without the pathfinding algorithm, wasd
     private Vector3 currentDir;
     public Player pathNode { get; private set; }
 
-    private bool moving;
+    private bool moving = false;
 
+    Ray hit;
+
+    float maxDistance = 100;
+
+    public LayerMask layersToHit;
     private void Awake()
     {
         moving = false;
@@ -51,24 +56,42 @@ public class Player : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {/*
-       if (Input.GetButtonDown("Fire1"))
-        {
-            MouseInput();
-            Debug.Log("Click");
-        }
+    {
+        //MouseInput();
         if (moving == false)
         {
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hitinfo, 20f))
+            {
+                if (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    MoveToNode moveToNode = hit.collider.GetComponent<Player>();
+                    if (moveToNode != null)
+                    {
+                        moveToNode.MoveToNode();
+                    }
+
+                    moving = true;
+                    CurrentNode = TargetNode;
+                    
+                }
+                    Debug.Log("Hit Something");
+                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hitinfo.distance, Color.red);
+            }
+                else
+                {
+                    Debug.Log("Hit Nothing");
+                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 20f, Color.green);
+                }
 
             //detect if movement
             //check if any events receieved from the buttons if so, which node is the current node, set moving to true. if moving is true well go to else, say that our distance.
             //if distance is greater than 0.25f. When the game starts the player will be sitting, moving will set to false until a button is pressed.
             //Implement inputs and event-callbacks here
-            
+
         }
         else
         {
-            if (Vector3.Distance(transform.position, TargetNode.transform.position) > 0.25f)
+            if (Vector3.Distance(transform.position, TargetNode.transform.position) > 20f)
             {
                 transform.Translate(currentDir * speed * Time.deltaTime);
             }
@@ -77,9 +100,9 @@ public class Player : MonoBehaviour
                 moving = false;
                 CurrentNode = TargetNode;
             }
-        }*/
+        }
     }
-    private void FindNeighbours()
+        /*private void FindNeighbours()
     {
         RaycastHit hit;
         Player gridNode;
@@ -95,21 +118,21 @@ public class Player : MonoBehaviour
                      
             }
         }
-    }
+    }*/
 
 
-    public void MouseInput()
+   /* private void MouseInput()
     {
-        RaycastHit ray;
+         RaycastHit ray;
         if (Physics.Raycast(Input.mousePosition, Vector3.forward, out ray, 2f))
         {
             if (ray.collider.gameObject.tag == "Button")
             {
                 Debug.Log("Button Detected");
             }
-        }
-  
-    }
+        }  
+
+    }*/
     //Implement mouse interaction method here
     //ifobject in UI which mouse is over is tagged 'button
     //call the input(direction) method
@@ -121,7 +144,7 @@ public class Player : MonoBehaviour
     /// Sets the players target node and current directon to the specified node.
     /// </summary>
     /// <param name="node"></param>
-   /* public void MoveToNode(Node node)
+   private void MoveToNode(Node node)
     {
         CurrentNode = TargetNode; //update the current node index
         //move to the next node
@@ -134,5 +157,5 @@ public class Player : MonoBehaviour
             currentDir = currentDir.normalized;
             moving = true;
         }
-    }*/
+    }
 }
