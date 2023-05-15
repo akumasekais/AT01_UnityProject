@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
+
 
 public class Player : MonoBehaviour
 {
@@ -13,11 +16,16 @@ public class Player : MonoBehaviour
     [SerializeField] Material greenMat;
 
     [SerializeField] private float speed = 4;
+    [SerializeField] EventSystem _eventSystem;
+    [SerializeField] GraphicRaycaster gRaycaster;
+    private PointerEventData pData;
+
+    private NavButton currentButton;
 
     //public List<Player> neighbours = new List<Player>();
 
     //[SerializeField] List<Vector3> neighbourDirections = new List<Vector3>();
-   
+
     //similar movement to ai without the pathfinding algorithm, wasd
     private Vector3 currentDir;
     public Player pathNode { get; private set; }
@@ -32,7 +40,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         moving = false;
-        if(!TryGetComponent<MeshRenderer>(out meshRenderer))
+        if (!TryGetComponent<MeshRenderer>(out meshRenderer))
         {
             Debug.Log("You need to attach a MeshRender to this object");
         }
@@ -40,12 +48,12 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       // MoveToNode(); 
+        // MoveToNode(); 
         //access game manager instnace and it goes throguh all nodes that contain nodes list adn checks if the amount of children is equal to 0, essentially grab one nodes 6
         //for instance has three parents
         foreach (Node node in GameManager.Instance.Nodes)
         {
-            if(node.Parents.Length > 2 && node.Children.Length == 0)
+            if (node.Parents.Length > 2 && node.Children.Length == 0)
             {
                 CurrentNode = node;
                 TargetNode = node;
@@ -57,105 +65,143 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //MouseInput();
+
+        //MouseInputForward
         if (moving == false)
         {
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out RaycastHit hitinfo, 20f))
+            MouseInteraction();
+        
+            if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                if (Input.GetKeyDown(KeyCode.UpArrow))
+                if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitinfo, 20f))
                 {
-                    MoveToNode moveToNode = hit.collider.GetComponent<Player>();
-                    if (moveToNode != null)
+                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward), Color.red, 0.3f);
+                    Node hitNode;
+
+                    if (hitinfo.collider.TryGetComponent<Node>(out hitNode))
                     {
-                        moveToNode.MoveToNode();
+                        Debug.Log("Hit " + hitNode.name);
+
+                        MoveToNode(hitNode);
+
+                        //CurrentNode = TargetNode;
                     }
 
-                    moving = true;
-                    CurrentNode = TargetNode;
-                    
+
                 }
-                    Debug.Log("Hit Something");
-                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hitinfo.distance, Color.red);
-            }
                 else
                 {
                     Debug.Log("Hit Nothing");
                     Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 20f, Color.green);
                 }
-
-            //detect if movement
-            //check if any events receieved from the buttons if so, which node is the current node, set moving to true. if moving is true well go to else, say that our distance.
-            //if distance is greater than 0.25f. When the game starts the player will be sitting, moving will set to false until a button is pressed.
-            //Implement inputs and event-callbacks here
-
+            }
         }
-        else
+        else 
         {
-            if (Vector3.Distance(transform.position, TargetNode.transform.position) > 20f)
+            if (Vector3.Distance(transform.position, TargetNode.transform.position) > 0.1f)
             {
                 transform.Translate(currentDir * speed * Time.deltaTime);
             }
             else
             {
+                Debug.Log("Destination reached");
                 moving = false;
-                CurrentNode = TargetNode;
+
+            }
+        }
+        /*if (Input.GetKeyDown(KeyCode.DownArrow)) //mouseinputbackwards
+        {
+            if (Physics.Raycast(transform.position, -transform.forward, out RaycastHit hitinfo, 20f))
+            {
+                Debug.DrawRay(transform.position, transform.TransformDirection(-Vector3.forward), Color.red, 0.3f);
+                Node hitNode;
+
+                if (hitinfo.collider.TryGetComponent<Node>(out hitNode))
+                {
+                    Debug.Log("Hit " + hitNode.name);
+
+                    MoveToNode(hitNode);
+
+                    //CurrentNode = TargetNode;
+                }
+
+
+            }
+            else
+            {
+                Debug.Log("Hit Nothing");
+                Debug.DrawRay(transform.position, transform.TransformDirection(-Vector3.forward) * 20f, Color.green);
+            }
+        }
+        else
+        {
+            if (Vector3.Distance(transform.position, TargetNode.transform.position) > 0.1f)
+            {
+                transform.Translate(currentDir * speed * Time.deltaTime);
+            }
+            else
+            {
+                Debug.Log("Destination reached");
+                moving = false;
+
+            }*/
+        
+    }
+
+    //Implement mouse interaction method here
+    private void MouseInteraction()
+    {
+        pData = new PointerEventData(_eventSystem);
+        pData.position = Input.mousePosition;
+        List<RaycastResult> results = new List<RaycastResult>();
+        gRaycaster.Raycast(pData, results);
+        NavButton nButton;
+        foreach (RaycastResult result in results)
+        {
+            if (result.gameObject.TryGetComponent<NavButton>(out nButton))
+            {
+                currentButton = nButton;
+            }
+            else
+            {
+                Debug.Log("Done");
+            }
+
+            if (Input.GetMouseButtonDown(0) && currentButton != null)
+            {
+                Debug.Log("Input detected!");
+                //UpdateTargetNode(currentButton.direction);
             }
         }
     }
-        /*private void FindNeighbours()
-    {
-        RaycastHit hit;
-        Player gridNode;
-
-        for(int i = 0; i < neighbourDirections.Count; i++)
-        {
-            if(Physics.Raycast(transform.position, neighbourDirections[i], out hit, 2f))
-            {
-                if (hit.collider.TryGetComponent<Player>(out gridNode))
-                {
-                    neighbours.Add(gridNode);
-                }
-                     
-            }
-        }
-    }*/
-
-
-   /* private void MouseInput()
-    {
-         RaycastHit ray;
-        if (Physics.Raycast(Input.mousePosition, Vector3.forward, out ray, 2f))
-        {
-            if (ray.collider.gameObject.tag == "Button")
-            {
-                Debug.Log("Button Detected");
-            }
-        }  
-
-    }*/
-    //Implement mouse interaction method here
-    //ifobject in UI which mouse is over is tagged 'button
     //call the input(direction) method
     //invoke' change colour' event
-    //kinda relates to raycasting, how can you have a raycast from our cursor position where it is on screen and work out if mouse is covering something. mouse distance from 3d object.
 
 
     /// <summary>
     /// Sets the players target node and current directon to the specified node.
     /// </summary>
     /// <param name="node"></param>
-   private void MoveToNode(Node node)
-    {
-        CurrentNode = TargetNode; //update the current node index
-        //move to the next node
+    private void MoveToNode(Node node)
+            {
+                CurrentNode = TargetNode; //update the current node index
+                                          //move to the next node
 
+
+                if (moving != true)
+                {
+                    TargetNode = node;
+                    currentDir = TargetNode.transform.position - transform.position;
+                    currentDir = currentDir.normalized;
+                    moving = true;
+                }
+            }
+
+        private void OnDrawGizmos()
+            {
+
+            }
         
-        if (moving == true)
-        {
-            TargetNode = node;
-            currentDir = TargetNode.transform.position - transform.position;
-            currentDir = currentDir.normalized;
-            moving = true;
-        }
     }
-}
+
+
