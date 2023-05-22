@@ -1196,7 +1196,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1059721679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1209,7 +1209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 492917e4cc685f04f97741c52883ef30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 5
 --- !u!135 &1059721680
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1489,7 +1489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   greenMat: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 3}
-  speed: 4
+  speed: 3
   _eventSystem: {fileID: 0}
   gRaycaster: {fileID: 0}
   layersToHit:

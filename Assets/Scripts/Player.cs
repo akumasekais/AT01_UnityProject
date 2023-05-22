@@ -109,28 +109,118 @@ public class Player : MonoBehaviour
 
             }
         }
-        /*if (Input.GetKeyDown(KeyCode.DownArrow)) //mouseinputbackwards
+        //mouseinputbackwards
+        if (moving == false)
         {
-            if (Physics.Raycast(transform.position, -transform.forward, out RaycastHit hitinfo, 20f))
+            MouseInteraction();
+
+            if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                Debug.DrawRay(transform.position, transform.TransformDirection(-Vector3.forward), Color.red, 0.3f);
-                Node hitNode;
-
-                if (hitinfo.collider.TryGetComponent<Node>(out hitNode))
+                if (Physics.Raycast(transform.position, -transform.forward, out RaycastHit hitinfo, 20f))
                 {
-                    Debug.Log("Hit " + hitNode.name);
+                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.back), Color.red, 0.3f);
+                    Node hitNode;
 
-                    MoveToNode(hitNode);
+                    if (hitinfo.collider.TryGetComponent<Node>(out hitNode))
+                    {
+                        Debug.Log("Hit " + hitNode.name);
 
-                    //CurrentNode = TargetNode;
+                        MoveToNode(hitNode);
+
+                        //CurrentNode = TargetNode;
+                    }
+
+
                 }
-
-
+                else
+                {
+                    Debug.Log("Hit Nothing");
+                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.back) * 20f, Color.green);
+                }
+            }
+        }
+        else
+        {
+            if (Vector3.Distance(-transform.position,  TargetNode.transform.position) > 0.1f)
+            {
+                transform.Translate(currentDir * speed * Time.deltaTime);
             }
             else
             {
-                Debug.Log("Hit Nothing");
-                Debug.DrawRay(transform.position, transform.TransformDirection(-Vector3.forward) * 20f, Color.green);
+                Debug.Log("Destination reached");
+                moving = false;
+
+            }
+        }
+        if (moving == false)
+        {
+            MouseInteraction();
+
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                if (Physics.Raycast(transform.position, -transform.right, out RaycastHit hitinfo, 20f))
+                {
+                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.left), Color.red, 0.3f);
+                    Node hitNode;
+
+                    if (hitinfo.collider.TryGetComponent<Node>(out hitNode))
+                    {
+                        Debug.Log("Hit " + hitNode.name);
+
+                        MoveToNode(hitNode);
+
+                        //CurrentNode = TargetNode;
+                    }
+
+
+                }
+                else
+                {
+                    Debug.Log("Hit Nothing");
+                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.left) * 20f, Color.green);
+                }
+            }
+        }
+        else
+        {
+            if (Vector3.Distance(-transform.position, TargetNode.transform.position) > 0.1f)
+            {
+                transform.Translate(currentDir * speed * Time.deltaTime);
+            }
+            else
+            {
+                Debug.Log("Destination reached");
+                moving = false;
+
+            }
+        }
+        if (moving == false)
+        {
+            MouseInteraction();
+
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                if (Physics.Raycast(transform.position, transform.right, out RaycastHit hitinfo, 20f))
+                {
+                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.right), Color.red, 0.3f);
+                    Node hitNode;
+
+                    if (hitinfo.collider.TryGetComponent<Node>(out hitNode))
+                    {
+                        Debug.Log("Hit " + hitNode.name);
+
+                        MoveToNode(hitNode);
+
+                        //CurrentNode = TargetNode;
+                    }
+
+
+                }
+                else
+                {
+                    Debug.Log("Hit Nothing");
+                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.right) * 20f, Color.green);
+                }
             }
         }
         else
@@ -144,13 +234,13 @@ public class Player : MonoBehaviour
                 Debug.Log("Destination reached");
                 moving = false;
 
-            }*/
-        
+            }
+        }
     }
 
     //Implement mouse interaction method here
     private void MouseInteraction()
-    {
+    {/*
         pData = new PointerEventData(_eventSystem);
         pData.position = Input.mousePosition;
         List<RaycastResult> results = new List<RaycastResult>();
@@ -172,7 +262,7 @@ public class Player : MonoBehaviour
                 Debug.Log("Input detected!");
                 //UpdateTargetNode(currentButton.direction);
             }
-        }
+        }*/
     }
     //call the input(direction) method
     //invoke' change colour' event

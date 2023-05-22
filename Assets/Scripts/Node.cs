@@ -12,7 +12,8 @@ public class Node : MonoBehaviour
     [Tooltip("Child directly below node should always be first in array.")]
     //[SerializeField] private Node[] neighbours;
     //boolean variabl for checking if node has been searched
-    public bool searched = false;
+    public bool searched;
+    
 
     [SerializeField] private Node[] children;
     private void Start()

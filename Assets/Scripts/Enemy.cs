@@ -101,22 +101,24 @@ public class Enemy : MonoBehaviour
         List<Node> stack = new List<Node>();
 
         stack.Add(GameManager.Instance.Nodes[0]);
+
+        //iterate through all Nodes in GameManager and set 'searched' back to 'false'
+
         //GameManager.Instance.Nodes.ToList();
 
-        Debug.Log("Player's Target node is: " + player.TargetNode.name);
-        Debug.Log("Player's currentnode is: " + player.CurrentNode.name);
+       // Debug.Log("Player's Target node is: " + player.TargetNode.name);
+       // Debug.Log("Player's currentnode is: " + player.CurrentNode.name);
 
         while (!targetfound)
-        {
-
-            nodeCurrentlyBeingSearched = stack[stack.Count - 1];
+        {          
 
             if (stack.Count() > 0)
             {
+                nodeCurrentlyBeingSearched = stack.Last<Node>();
                 //1. take the last item in unsearched nodes list and assign it to node current unsearched'
 
                 //Check if nodeCurrentlyUnsearched is the same as either the target node of the player
-                if (nodeCurrentlyBeingSearched == player.CurrentNode || nodeCurrentlyBeingSearched == player.TargetNode) 
+                if (nodeCurrentlyBeingSearched == player.CurrentNode) // || nodeCurrentlyBeingSearched == player.TargetNode) 
                 {
                     //nodeCurrentlyBeingSearched.searched = true; //nodeCurrentlyUnsearched.searched = true;
 
@@ -136,14 +138,20 @@ public class Enemy : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Adding children to stack.");
+                    
                     foreach (Node childNode in nodeCurrentlyBeingSearched.Children)
                     {
 
                         if (!childNode.searched)
                         {
+                            Debug.Log("Adding children to stack.");
+
                             stack.Add(childNode);
                             childNode.searched = true;
+                        }
+                        else
+                        {
+                            Debug.Log("This node is already searched.");
                         }
                         
                         //Debug.Log(stack.Count);
