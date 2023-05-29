@@ -13,7 +13,7 @@ public class Node : MonoBehaviour
     //[SerializeField] private Node[] neighbours;
     //boolean variabl for checking if node has been searched
     public bool searched;
-    
+   
 
     [SerializeField] private Node[] children;
     private void Start()

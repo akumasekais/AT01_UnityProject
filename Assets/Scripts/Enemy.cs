@@ -102,7 +102,15 @@ public class Enemy : MonoBehaviour
 
         stack.Add(GameManager.Instance.Nodes[0]);
 
-        //iterate through all Nodes in GameManager and set 'searched' back to 'false'
+
+
+        //iterate through all Nodes in GameManager and set 'searched' back to 'false
+
+        foreach (Node node in GameManager.Instance.Nodes)
+        {
+            node.searched = false;
+        }
+
 
         //GameManager.Instance.Nodes.ToList();
 
@@ -122,7 +130,7 @@ public class Enemy : MonoBehaviour
                 {
                     //nodeCurrentlyBeingSearched.searched = true; //nodeCurrentlyUnsearched.searched = true;
 
-                    Debug.Log("Found the target. It is: " + nodeCurrentlyBeingSearched.name);
+                    Debug.Log("Found the target. It is: " + player.TargetNode);
 
                     // Assign nodeCurrentlyUnsearched to current node
                     currentNode = nodeCurrentlyBeingSearched;
@@ -131,10 +139,9 @@ public class Enemy : MonoBehaviour
                     //its important to normalize because it gives consistent 
                     currentDir = currentDir.normalized;
                     targetfound = true;
-                    break;
                     //asdasd
                     // Break the loop and finish the method
-                   
+
                 }
                 else
                 {
@@ -144,7 +151,7 @@ public class Enemy : MonoBehaviour
 
                         if (!childNode.searched)
                         {
-                            Debug.Log("Adding children to stack.");
+                            Debug.Log("Adding children to stack." + childNode.name);
 
                             stack.Add(childNode);
                             childNode.searched = true;
@@ -160,6 +167,7 @@ public class Enemy : MonoBehaviour
                             currentNode = GameManager.Instance.Nodes[0];*/
                     }
                 }
+                Debug.Log("All children of node " + nodeCurrentlyBeingSearched.name + " are already searched.");
                 stack.Remove(nodeCurrentlyBeingSearched);
 
             }
@@ -167,6 +175,7 @@ public class Enemy : MonoBehaviour
             {
                 Debug.Log("Didn't find the target. Exhausted all options. Exiting.");
                 break;
+
             }
 
 
