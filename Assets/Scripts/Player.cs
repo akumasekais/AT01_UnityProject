@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using static UnityEngine.UI.ContentSizeFitter;
 
 
 public class Player : MonoBehaviour
@@ -21,6 +22,10 @@ public class Player : MonoBehaviour
     private PointerEventData pData;
 
     private NavButton currentButton;
+    public Image oldImage;
+    public Sprite newImage;
+    public Player player;
+
 
     //public List<Player> neighbours = new List<Player>();
 
@@ -48,6 +53,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         // MoveToNode(); 
         //access game manager instnace and it goes throguh all nodes that contain nodes list adn checks if the amount of children is equal to 0, essentially grab one nodes 6
         //for instance has three parents
@@ -62,6 +68,12 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void ImageChange()
+    {
+        oldImage.sprite = newImage;
+    }
+
+
     // Update is called once per frame
     void Update()
     {
@@ -69,8 +81,7 @@ public class Player : MonoBehaviour
         //MouseInputForward
         if (moving == false)
         {
-            MouseInteraction();
-        
+
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitinfo, 20f))
@@ -95,8 +106,9 @@ public class Player : MonoBehaviour
                     Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 20f, Color.green);
                 }
             }
+
         }
-        else 
+        else
         {
             if (Vector3.Distance(transform.position, TargetNode.transform.position) > 0.1f)
             {
@@ -112,7 +124,7 @@ public class Player : MonoBehaviour
         //mouseinputbackwards
         if (moving == false)
         {
-            MouseInteraction();
+
 
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
@@ -138,10 +150,11 @@ public class Player : MonoBehaviour
                     Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.back) * 20f, Color.green);
                 }
             }
+
         }
         else
         {
-            if (Vector3.Distance(-transform.position,  TargetNode.transform.position) > 0.1f)
+            if (Vector3.Distance(-transform.position, TargetNode.transform.position) > 0.1f)
             {
                 transform.Translate(currentDir * speed * Time.deltaTime);
             }
@@ -154,7 +167,7 @@ public class Player : MonoBehaviour
         }
         if (moving == false)
         {
-            MouseInteraction();
+
 
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
@@ -180,6 +193,7 @@ public class Player : MonoBehaviour
                     Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.left) * 20f, Color.green);
                 }
             }
+
         }
         else
         {
@@ -196,7 +210,7 @@ public class Player : MonoBehaviour
         }
         if (moving == false)
         {
-            MouseInteraction();
+
 
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
@@ -222,6 +236,7 @@ public class Player : MonoBehaviour
                     Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.right) * 20f, Color.green);
                 }
             }
+
         }
         else
         {
@@ -239,59 +254,69 @@ public class Player : MonoBehaviour
     }
 
     //Implement mouse interaction method here
-    private void MouseInteraction()
-    {/*
-        pData = new PointerEventData(_eventSystem);
-        pData.position = Input.mousePosition;
-        List<RaycastResult> results = new List<RaycastResult>();
-        gRaycaster.Raycast(pData, results);
-        NavButton nButton;
-        foreach (RaycastResult result in results)
+
+
+    private void MouseInteraction(PointerEventData eventData)
+
+    {
+        if (moving == false)
+
         {
-            if (result.gameObject.TryGetComponent<NavButton>(out nButton))
+            if (eventData.button == PointerEventData.InputButton.Left)
+
+
             {
-                currentButton = nButton;
+                {
+                    if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitinfo, 20f))
+                    {
+                        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward), Color.red, 0.3f);
+                        Node hitNode;
+
+                        if (hitinfo.collider.TryGetComponent<Node>(out hitNode))
+                        {
+                            Debug.Log("Hit " + hitNode.name);
+
+                            MoveToNode(hitNode);
+
+                            //CurrentNode = TargetNode;
+                        }
+
+
+                    }
+                    else
+                    {
+                        Debug.Log("Hit Nothing");
+                        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 20f, Color.green);
+                    }
+                }
+
             }
             else
+
             {
-                Debug.Log("Done");
+                Debug.Log("It didnt work your mouse interaction.");
             }
+        }
 
-            if (Input.GetMouseButtonDown(0) && currentButton != null)
-            {
-                Debug.Log("Input detected!");
-                //UpdateTargetNode(currentButton.direction);
-            }
-        }*/
-    }
-    //call the input(direction) method
-    //invoke' change colour' event
-
-
-    /// <summary>
-    /// Sets the players target node and current directon to the specified node.
-    /// </summary>
-    /// <param name="node"></param>
-    private void MoveToNode(Node node)
-            {
-                CurrentNode = TargetNode; //update the current node index
-                                          //move to the next node
-
-
-                if (moving != true)
-                {
-                    TargetNode = node;
-                    currentDir = TargetNode.transform.position - transform.position;
-                    currentDir = currentDir.normalized;
-                    moving = true;
-                }
-            }
-
-        private void OnDrawGizmos()
-            {
-
-            }
         
     }
+
+    private void MoveToNode(Node node)
+    {
+        CurrentNode = TargetNode; //update the current node index
+                                  //move to the next node
+
+
+        if (moving != true)
+        {
+            TargetNode = node;
+            currentDir = TargetNode.transform.position - transform.position;
+            currentDir = currentDir.normalized;
+            moving = true;
+        }
+    }
+}
+    
+    
 
 
