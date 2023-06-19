@@ -22,8 +22,8 @@ public class Player : MonoBehaviour
     private PointerEventData pData;
 
     private NavButton currentButton;
-    public Image oldImage;
-    public Sprite newImage;
+    //public Image oldImage;
+    //public Sprite newImage;
     public Player player;
 
 
@@ -68,10 +68,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ImageChange()
-    {
-        oldImage.sprite = newImage;
-    }
+   
 
 
     // Update is called once per frame
@@ -251,14 +248,16 @@ public class Player : MonoBehaviour
 
             }
         }
+
+        MouseInteraction(pData);
     }
 
     //Implement mouse interaction method here
 
 
     private void MouseInteraction(PointerEventData eventData)
-
     {
+
         if (moving == false)
 
         {
@@ -266,6 +265,7 @@ public class Player : MonoBehaviour
 
 
             {
+                Debug.Log("Mouse was clicked");
                 {
                     if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitinfo, 20f))
                     {

@@ -347,7 +347,6 @@ GameObject:
   - component: {fileID: 351793848}
   - component: {fileID: 351793847}
   - component: {fileID: 351793845}
-  - component: {fileID: 351793846}
   m_Layer: 5
   m_Name: Right Arrow
   m_TagString: Untagged
@@ -387,18 +386,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 100, y: 30, z: 5}
   m_Center: {x: 50, y: 15, z: 0}
---- !u!114 &351793846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 351793843}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0279515c191a29c4aa0ddc30b49cc93b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &351793847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -564,8 +551,6 @@ GameObject:
   - component: {fileID: 399018506}
   - component: {fileID: 399018505}
   - component: {fileID: 399018503}
-  - component: {fileID: 399018504}
-  - component: {fileID: 399018507}
   m_Layer: 5
   m_Name: Up Arrow
   m_TagString: Untagged
@@ -605,19 +590,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 100, y: 30, z: 5}
   m_Center: {x: 50, y: 15, z: 0}
---- !u!114 &399018504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 399018501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e0072386a222b942b6b7399880c8d9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  directions: 0
 --- !u!114 &399018505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -656,18 +628,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 399018501}
   m_CullTransparentMesh: 1
---- !u!114 &399018507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 399018501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0279515c191a29c4aa0ddc30b49cc93b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &408305540
 GameObject:
   m_ObjectHideFlags: 0
@@ -680,7 +640,6 @@ GameObject:
   - component: {fileID: 408305545}
   - component: {fileID: 408305544}
   - component: {fileID: 408305542}
-  - component: {fileID: 408305543}
   m_Layer: 5
   m_Name: Down Arrow
   m_TagString: Untagged
@@ -720,18 +679,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 100, y: 30, z: 5}
   m_Center: {x: 50, y: 15, z: 0}
---- !u!114 &408305543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 408305540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0279515c191a29c4aa0ddc30b49cc93b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &408305544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1529,11 +1476,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   greenMat: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 3}
   speed: 3
-  _eventSystem: {fileID: 0}
-  gRaycaster: {fileID: 0}
-  oldImage: {fileID: 0}
-  newImage: {fileID: 0}
-  player: {fileID: 0}
+  _eventSystem: {fileID: 1215032672}
+  gRaycaster: {fileID: 1157219709}
+  player: {fileID: 1220234473}
   layersToHit:
     serializedVersion: 2
     m_Bits: 0
@@ -1607,7 +1552,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1220234472}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.62, z: 0}
+  m_LocalPosition: {x: 0, y: 3.16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2389,7 +2334,6 @@ GameObject:
   - component: {fileID: 2087152944}
   - component: {fileID: 2087152943}
   - component: {fileID: 2087152941}
-  - component: {fileID: 2087152942}
   m_Layer: 5
   m_Name: Left Arrow
   m_TagString: Untagged
@@ -2429,18 +2373,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 100, y: 30, z: 5}
   m_Center: {x: 50, y: 15, z: 0}
---- !u!114 &2087152942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2087152939}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0279515c191a29c4aa0ddc30b49cc93b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2087152943
 MonoBehaviour:
   m_ObjectHideFlags: 0
