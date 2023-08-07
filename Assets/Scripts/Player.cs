@@ -22,8 +22,8 @@ public class Player : MonoBehaviour
     private PointerEventData pData;
 
     private NavButton currentButton;
-    public Image oldImage;
-    public Sprite newImage;
+   // public Image oldImage;
+    //public Sprite newImage;
     public Player player;
 
 
@@ -68,10 +68,11 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ImageChange()
+    /*public void ImageChange()
     {
         oldImage.sprite = newImage;
     }
+    */
 
 
     // Update is called once per frame
