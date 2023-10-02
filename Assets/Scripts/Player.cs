@@ -68,13 +68,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    /*public void ImageChange()
-    {
-        oldImage.sprite = newImage;
-    }
-    */
-
-
     // Update is called once per frame
     void Update()
     {
@@ -257,7 +250,7 @@ public class Player : MonoBehaviour
     //Implement mouse interaction method here
 
 
-    private void MouseInteraction(PointerEventData eventData)
+    /* private void MouseInteraction(PointerEventData eventData)
 
     {
         if (moving == false)
@@ -298,9 +291,10 @@ public class Player : MonoBehaviour
                 Debug.Log("It didnt work your mouse interaction.");
             }
         }
-
+    */
         
     }
+    public void Movement()
 
     private void MoveToNode(Node node)
     {
