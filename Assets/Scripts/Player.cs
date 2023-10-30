@@ -72,6 +72,7 @@ public class Player : MonoBehaviour
     void Update()
     {
 
+
         //MouseInputForward
         if (moving == false)
         {
@@ -246,55 +247,66 @@ public class Player : MonoBehaviour
             }
         }
     }
-
     //Implement mouse interaction method here
-
-
-    /* private void MouseInteraction(PointerEventData eventData)
-
+    void Inputs(int direction)
     {
         if (moving == false)
-
         {
-            if (eventData.button == PointerEventData.InputButton.Left)
-
-
+            RaycastHit hit;
+            if (x_move < 0 | direction == 1)
             {
+                if (Physics.Raycast(transform.position, Vector3.left, out hit, 10))
                 {
-                    if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitinfo, 20f))
-                    {
-                        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward), Color.red, 0.3f);
-                        Node hitNode;
-
-                        if (hitinfo.collider.TryGetComponent<Node>(out hitNode))
-                        {
-                            Debug.Log("Hit " + hitNode.name);
-
-                            MoveToNode(hitNode);
-
-                            //CurrentNode = TargetNode;
-                        }
-
-
-                    }
-                    else
-                    {
-                        Debug.Log("Hit Nothing");
-                        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 20f, Color.green);
-                    }
+                    MoveToNode(hit.collider.gameObject.GetComponent<Node>());
+                    EventManager.updateColorEvent(Color.green, 1);
+                    direction = 0;
                 }
-
+                else
+                {
+                    EventManager.updateColorEvent(Color.red, 1);
+                }
             }
-            else
-
+            if (x_move > 0 | direction == 2)
             {
-                Debug.Log("It didnt work your mouse interaction.");
+                if (Physics.Raycast(transform.position, Vector3.right, out hit, 10))
+                {
+                    MoveToNode(hit.collider.gameObject.GetComponent<Node>());
+                    EventManager.updateColorEvent(Color.green, 2);
+                    direction = 0;
+                }
+                else
+                {
+                    EventManager.updateColorEvent(Color.red, 2);
+                }
+            }
+            if (y_move < 0 | direction == 3)
+            {
+                if (Physics.Raycast(transform.position, Vector3.forward, out hit, 10))
+                {
+                    MoveToNode(hit.collider.gameObject.GetComponent<Node>());
+                    EventManager.updateColorEvent(Color.green, 3);
+                    direction = 0;
+                }
+                else
+                {
+                    EventManager.updateColorEvent(Color.red, 3);
+                }
+            }
+            if (y_move > 0 | direction == 4)
+            {
+                if (Physics.Raycast(transform.position, Vector3.back, out hit, 10))
+                {
+                    MoveToNode(hit.collider.gameObject.GetComponent<Node>());
+                    EventManager.updateColorEvent(Color.green, 4);
+                    direction = 0;
+                }
+                else
+                {
+                    EventManager.updateColorEvent(Color.red, 4);
+                }
             }
         }
-    */
-        
     }
-    public void Movement()
 
     private void MoveToNode(Node node)
     {
@@ -311,7 +323,3 @@ public class Player : MonoBehaviour
         }
     }
 }
-    
-    
-
-
