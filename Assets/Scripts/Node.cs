@@ -21,13 +21,12 @@ public class Node : MonoBehaviour
         //fimnd all neighbouring nodes and add them to neighbour
 
     }
-    /// <summary>
+    
     /// Returns the children of the node.
-    /// </summary>
     public Node[] Children { get { return children; } }
-    /// <summary>
+   
     /// Returns the parents of the node.
-    /// </summary>
+
     public Node[] Parents { get { return parents; } }
     // public Node[] Neighbours { get { return neighbours; } }
 
@@ -54,24 +53,3 @@ public class Node : MonoBehaviour
     }
 }
     
-
-    /* method for toggling 'search' between true and false
-    public void ToggleSearch()
-    {
-        if (!(searched = false)) //clear before you take algorithm
-        {
-
-        }
-        else
-        {
-            searched = !searched;
-        }
-    }
-}
-
-
-    */
-
-        //method for setting
-      //  public void SetNeighbors(Node[] nodes)
-   

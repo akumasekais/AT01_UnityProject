@@ -14,6 +14,9 @@ public class Player : MonoBehaviour
     public Node CurrentNode { get; set; }
     public Node TargetNode { get; private set; }
 
+    float x_move = 0f;
+    float y_move = 0f;
+
     [SerializeField] Material greenMat;
 
     [SerializeField] private float speed = 4;
@@ -21,25 +24,22 @@ public class Player : MonoBehaviour
     [SerializeField] GraphicRaycaster gRaycaster;
     private PointerEventData pData;
 
-    private NavButton currentButton;
-   // public Image oldImage;
-    //public Sprite newImage;
     public Player player;
 
 
-    //public List<Player> neighbours = new List<Player>();
-
-    //[SerializeField] List<Vector3> neighbourDirections = new List<Vector3>();
-
-    //similar movement to ai without the pathfinding algorithm, wasd
     private Vector3 currentDir;
     public Player pathNode { get; private set; }
 
     private bool moving = false;
 
+    public bool bleft;
+    public bool bright;
+    public bool bup;
+    public bool bdown;
+
     Ray hit;
 
-    float maxDistance = 100;
+   
 
     public LayerMask layersToHit;
     private void Awake()
@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
     void Start()
     {
 
-        // MoveToNode(); 
+        EventManager.MovementEvent += Inputs;
         //access game manager instnace and it goes throguh all nodes that contain nodes list adn checks if the amount of children is equal to 0, essentially grab one nodes 6
         //for instance has three parents
         foreach (Node node in GameManager.Instance.Nodes)
@@ -71,38 +71,15 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
         //MouseInputForward
         if (moving == false)
         {
-
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitinfo, 20f))
-                {
-                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward), Color.red, 0.3f);
-                    Node hitNode;
-
-                    if (hitinfo.collider.TryGetComponent<Node>(out hitNode))
-                    {
-                        Debug.Log("Hit " + hitNode.name);
-
-                        MoveToNode(hitNode);
-
-                        //CurrentNode = TargetNode;
-                    }
-
-
-                }
-                else
-                {
-                    Debug.Log("Hit Nothing");
-                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 20f, Color.green);
-                }
-            }
-
+            //Inputs and event-callbacks here
+            x_move = Input.GetAxis("Horizontal");
+            y_move = Input.GetAxis("Vertical");
+            Inputs(0);
         }
+
         else
         {
             if (Vector3.Distance(transform.position, TargetNode.transform.position) > 0.1f)
@@ -113,140 +90,181 @@ public class Player : MonoBehaviour
             {
                 Debug.Log("Destination reached");
                 moving = false;
-
             }
         }
-        //mouseinputbackwards
-        if (moving == false)
-        {
 
+           
 
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                if (Physics.Raycast(transform.position, -transform.forward, out RaycastHit hitinfo, 20f))
+                /*if (Input.GetKeyDown(KeyCode.UpArrow))
                 {
-                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.back), Color.red, 0.3f);
-                    Node hitNode;
-
-                    if (hitinfo.collider.TryGetComponent<Node>(out hitNode))
+                    if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hitinfo, 20f))
                     {
-                        Debug.Log("Hit " + hitNode.name);
+                        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward), Color.red, 0.3f);
+                        Node hitNode;
 
-                        MoveToNode(hitNode);
+                        if (hitinfo.collider.TryGetComponent<Node>(out hitNode))
+                        {
+                            Debug.Log("Hit " + hitNode.name);
 
-                        //CurrentNode = TargetNode;
+                            MoveToNode(hitNode);
+
+                            //CurrentNode = TargetNode;
+                        }
+
+
                     }
-
-
+                    else
+                    {
+                        Debug.Log("Hit Nothing");
+                        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 20f, Color.green);
+                    }
                 }
-                else
-                {
-                    Debug.Log("Hit Nothing");
-                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.back) * 20f, Color.green);
-                }
-            }
 
-        }
-        else
-        {
-            if (Vector3.Distance(-transform.position, TargetNode.transform.position) > 0.1f)
-            {
-                transform.Translate(currentDir * speed * Time.deltaTime);
             }
             else
             {
-                Debug.Log("Destination reached");
-                moving = false;
-
-            }
-        }
-        if (moving == false)
-        {
-
-
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                if (Physics.Raycast(transform.position, -transform.right, out RaycastHit hitinfo, 20f))
+                if (Vector3.Distance(transform.position, TargetNode.transform.position) > 0.1f)
                 {
-                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.left), Color.red, 0.3f);
-                    Node hitNode;
-
-                    if (hitinfo.collider.TryGetComponent<Node>(out hitNode))
-                    {
-                        Debug.Log("Hit " + hitNode.name);
-
-                        MoveToNode(hitNode);
-
-                        //CurrentNode = TargetNode;
-                    }
-
-
+                    transform.Translate(currentDir * speed * Time.deltaTime);
                 }
                 else
                 {
-                    Debug.Log("Hit Nothing");
-                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.left) * 20f, Color.green);
+                    Debug.Log("Destination reached");
+                    moving = false;
+
                 }
             }
-
-        }
-        else
-        {
-            if (Vector3.Distance(-transform.position, TargetNode.transform.position) > 0.1f)
+            //mouseinputbackwards
+            if (moving == false)
             {
-                transform.Translate(currentDir * speed * Time.deltaTime);
+
+
+                if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    if (Physics.Raycast(transform.position, -transform.forward, out RaycastHit hitinfo, 20f))
+                    {
+                        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.back), Color.red, 0.3f);
+                        Node hitNode;
+
+                        if (hitinfo.collider.TryGetComponent<Node>(out hitNode))
+                        {
+                            Debug.Log("Hit " + hitNode.name);
+
+                            MoveToNode(hitNode);
+
+                            //CurrentNode = TargetNode;
+                        }
+
+
+                    }
+                    else
+                    {
+                        Debug.Log("Hit Nothing");
+                        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.back) * 20f, Color.green);
+                    }
+                }
+
             }
             else
             {
-                Debug.Log("Destination reached");
-                moving = false;
-
-            }
-        }
-        if (moving == false)
-        {
-
-
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                if (Physics.Raycast(transform.position, transform.right, out RaycastHit hitinfo, 20f))
+                if (Vector3.Distance(-transform.position, TargetNode.transform.position) > 0.1f)
                 {
-                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.right), Color.red, 0.3f);
-                    Node hitNode;
-
-                    if (hitinfo.collider.TryGetComponent<Node>(out hitNode))
-                    {
-                        Debug.Log("Hit " + hitNode.name);
-
-                        MoveToNode(hitNode);
-
-                        //CurrentNode = TargetNode;
-                    }
-
-
+                    transform.Translate(currentDir * speed * Time.deltaTime);
                 }
                 else
                 {
-                    Debug.Log("Hit Nothing");
-                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.right) * 20f, Color.green);
+                    Debug.Log("Destination reached");
+                    moving = false;
+
                 }
             }
-
-        }
-        else
-        {
-            if (Vector3.Distance(transform.position, TargetNode.transform.position) > 0.1f)
+            if (moving == false)
             {
-                transform.Translate(currentDir * speed * Time.deltaTime);
+
+
+                if (Input.GetKeyDown(KeyCode.LeftArrow))
+                {
+                    if (Physics.Raycast(transform.position, -transform.right, out RaycastHit hitinfo, 20f))
+                    {
+                        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.left), Color.red, 0.3f);
+                        Node hitNode;
+
+                        if (hitinfo.collider.TryGetComponent<Node>(out hitNode))
+                        {
+                            Debug.Log("Hit " + hitNode.name);
+
+                            MoveToNode(hitNode);
+
+                            //CurrentNode = TargetNode;
+                        }
+
+
+                    }
+                    else
+                    {
+                        Debug.Log("Hit Nothing");
+                        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.left) * 20f, Color.green);
+                    }
+                }
+
             }
             else
             {
-                Debug.Log("Destination reached");
-                moving = false;
+                if (Vector3.Distance(-transform.position, TargetNode.transform.position) > 0.1f)
+                {
+                    transform.Translate(currentDir * speed * Time.deltaTime);
+                }
+                else
+                {
+                    Debug.Log("Destination reached");
+                    moving = false;
+
+                }
+            }
+            if (moving == false)
+            {
+
+
+                if (Input.GetKeyDown(KeyCode.RightArrow))
+                {
+                    if (Physics.Raycast(transform.position, transform.right, out RaycastHit hitinfo, 20f))
+                    {
+                        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.right), Color.red, 0.3f);
+                        Node hitNode;
+
+                        if (hitinfo.collider.TryGetComponent<Node>(out hitNode))
+                        {
+                            Debug.Log("Hit " + hitNode.name);
+
+                            MoveToNode(hitNode);
+
+                            //CurrentNode = TargetNode;
+                        }
+
+
+                    }
+                    else
+                    {
+                        Debug.Log("Hit Nothing");
+                        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.right) * 20f, Color.green);
+                    }
+                }
 
             }
-        }
-    }
+            else
+            {
+                if (Vector3.Distance(transform.position, TargetNode.transform.position) > 0.1f)
+                {
+                    transform.Translate(currentDir * speed * Time.deltaTime);
+                }
+                else
+                {
+                    Debug.Log("Destination reached");
+                    moving = false;
+
+                }
+            }*/
+            }
     //Implement mouse interaction method here
     void Inputs(int direction)
     {
@@ -281,7 +299,7 @@ public class Player : MonoBehaviour
             }
             if (y_move < 0 | direction == 3)
             {
-                if (Physics.Raycast(transform.position, Vector3.forward, out hit, 10))
+                if (Physics.Raycast(transform.position, Vector3.back, out hit, 10))
                 {
                     MoveToNode(hit.collider.gameObject.GetComponent<Node>());
                     EventManager.updateColorEvent(Color.green, 3);
@@ -294,7 +312,7 @@ public class Player : MonoBehaviour
             }
             if (y_move > 0 | direction == 4)
             {
-                if (Physics.Raycast(transform.position, Vector3.back, out hit, 10))
+                if (Physics.Raycast(transform.position, Vector3.forward, out hit, 10))
                 {
                     MoveToNode(hit.collider.gameObject.GetComponent<Node>());
                     EventManager.updateColorEvent(Color.green, 4);
@@ -307,7 +325,6 @@ public class Player : MonoBehaviour
             }
         }
     }
-
     private void MoveToNode(Node node)
     {
         CurrentNode = TargetNode; //update the current node index
@@ -322,4 +339,9 @@ public class Player : MonoBehaviour
             moving = true;
         }
     }
+    public void buttonpress(int button)
+    {
+        Inputs(button);
+    }
+
 }
