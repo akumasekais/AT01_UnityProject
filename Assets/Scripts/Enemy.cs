@@ -130,7 +130,7 @@ public class Enemy : MonoBehaviour
                 {
                     //nodeCurrentlyBeingSearched.searched = true; //nodeCurrentlyUnsearched.searched = true;
 
-                    Debug.Log("Found the target. It is: " + player.TargetNode);
+                    // Debug.Log("Found the target. It is: " + player.TargetNode);
 
                     // Assign nodeCurrentlyUnsearched to current node
                     currentNode = nodeCurrentlyBeingSearched;
@@ -151,14 +151,14 @@ public class Enemy : MonoBehaviour
 
                         if (!childNode.searched)
                         {
-                            Debug.Log("Adding children to stack." + childNode.name);
+                            // Debug.Log("Adding children to stack." + childNode.name);
 
                             stack.Add(childNode);
                             childNode.searched = true;
                         }
                         else
                         {
-                            Debug.Log("This node is already searched.");
+                            // Debug.Log("This node is already searched.");
                         }
                         
                         //Debug.Log(stack.Count);
@@ -167,13 +167,13 @@ public class Enemy : MonoBehaviour
                             currentNode = GameManager.Instance.Nodes[0];*/
                     }
                 }
-                Debug.Log("All children of node " + nodeCurrentlyBeingSearched.name + " are already searched.");
+                // Debug.Log("All children of node " + nodeCurrentlyBeingSearched.name + " are already searched.");
                 stack.Remove(nodeCurrentlyBeingSearched);
 
             }
             else
             {
-                Debug.Log("Didn't find the target. Exhausted all options. Exiting.");
+                // Debug.Log("Didn't find the target. Exhausted all options. Exiting.");
                 break;
 
             }
