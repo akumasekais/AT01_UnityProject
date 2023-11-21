@@ -80,11 +80,9 @@ public class Enemy : MonoBehaviour
     void DepthFirstSearch()
     {
 
-        bool targetfound = false;
        
-       Player player = GameManager.Instance.Player; //LOCAL VARIABLE 'PLAYER' = GAMEMANAGER.INSTANCE.PLAYER
-      // Node Node = GameManager.Instance.Nodes[0];//DO SAME FOR LIST OF NODES
-        Node nodeCurrentlyBeingSearched;
+       Player player = GameManager.Instance.Player;
+       Node nodeCurrentlyBeingSearched;
        
       
      
@@ -92,6 +90,7 @@ public class Enemy : MonoBehaviour
 
         stack.Add(GameManager.Instance.Nodes[0]);
 
+        bool targetfound = false;
 
 
         //iterate through all Nodes in GameManager and set 'searched' back to 'false
@@ -100,27 +99,20 @@ public class Enemy : MonoBehaviour
         {
             node.searched = false;
         }
-
-
-        //GameManager.Instance.Nodes.ToList();
-
-       // Debug.Log("Player's Target node is: " + player.TargetNode.name);
-       // Debug.Log("Player's currentnode is: " + player.CurrentNode.name);
+       Debug.Log("Player's Target node is: " + player.TargetNode.name);
+       Debug.Log("Player's currentnode is: " + player.CurrentNode.name);
 
         while (!targetfound)
         {          
 
             if (stack.Count() > 0)
             {
-                nodeCurrentlyBeingSearched = stack.Last<Node>();
-                //1. take the last item in unsearched nodes list and assign it to node current unsearched'
+                nodeCurrentlyBeingSearched = stack.Last<Node>(); //take the last item in unsearched nodes list and assign it to node current unsearched'
+                if (nodeCurrentlyBeingSearched == player.CurrentNode) //Check if nodeCurrentlyUnsearched is the same as either the target node of the player
 
-                //Check if nodeCurrentlyUnsearched is the same as either the target node of the player
-                if (nodeCurrentlyBeingSearched == player.CurrentNode) // || nodeCurrentlyBeingSearched == player.TargetNode) 
                 {
                     //nodeCurrentlyBeingSearched.searched = true; //nodeCurrentlyUnsearched.searched = true;
 
-                    // Debug.Log("Found the target. It is: " + player.TargetNode);
 
                     // Assign nodeCurrentlyUnsearched to current node
                     currentNode = nodeCurrentlyBeingSearched;
@@ -148,7 +140,7 @@ public class Enemy : MonoBehaviour
                         }
                         else
                         {
-                            // Debug.Log("This node is already searched.");
+                            Debug.Log("This node is already searched.");
                         }
                         
                         //Debug.Log(stack.Count);
@@ -164,6 +156,7 @@ public class Enemy : MonoBehaviour
             else
             {
                 // Debug.Log("Didn't find the target. Exhausted all options. Exiting.");
+                stack.Add(player.CurrentNode);
                 break;
 
             }
