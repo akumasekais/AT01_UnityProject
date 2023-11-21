@@ -82,7 +82,7 @@ public class Player : MonoBehaviour
 
         else
         {
-            if (Vector3.Distance(transform.position, TargetNode.transform.position) > 0.1f)
+            if (Vector3.Distance(transform.position, TargetNode.transform.position) > 0.25f)
             {
                 transform.Translate(currentDir * speed * Time.deltaTime);
             }
@@ -92,10 +92,19 @@ public class Player : MonoBehaviour
                 moving = false;
             }
         }
-
-           
     }
-    //Implement mouse interaction method here
+    private void MoveToNode(Node node)
+    {
+        CurrentNode = TargetNode; 
+
+        if (moving != true)
+        {
+            TargetNode = node;
+            currentDir = TargetNode.transform.position - transform.position;
+            currentDir = currentDir.normalized;
+            moving = true;
+        }
+    }
     void Inputs(int direction)
     {
         if (moving == false)
@@ -153,21 +162,7 @@ public class Player : MonoBehaviour
                     EventManager.updateColorEvent(Color.red, 4);
                 }
             }
-        }
-    }
-    private void MoveToNode(Node node)
-    {
-        CurrentNode = TargetNode; //update the current node index
-                                  //move to the next node
-
-
-        if (moving != true)
-        {
-            TargetNode = node;
-            currentDir = TargetNode.transform.position - transform.position;
-            currentDir = currentDir.normalized;
-            moving = true;
-        }
+        }        //Implement mouse interaction method here
     }
     public void buttonpress(int button)
     {

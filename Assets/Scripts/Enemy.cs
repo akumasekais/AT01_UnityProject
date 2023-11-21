@@ -71,32 +71,22 @@ public class Enemy : MonoBehaviour
     /// </summary>
     void InitializeAgent()
     {
-        //refer to the game manager without having reference just saying game.managerinstance index 0
         currentNode = GameManager.Instance.Nodes[0];
-        //Vector3.direction, working out direction of one vector to another
         currentDir = currentNode.transform.position - transform.position;
-        //giving vectro with a magnitude of 1, takes all values and it becomes a float between 0 and 1
-        //its important to normalize because it gives consistent 
         currentDir = currentDir.normalized;
-        //finding two vectors for direction is dir = b - a
-        //finding two vector for distance is distance = a - b
     }
 
-
-
     //Implement DFS algorithm method here
-
     void DepthFirstSearch()
     {
 
-        targetfound = false;
+        bool targetfound = false;
        
        Player player = GameManager.Instance.Player; //LOCAL VARIABLE 'PLAYER' = GAMEMANAGER.INSTANCE.PLAYER
       // Node Node = GameManager.Instance.Nodes[0];//DO SAME FOR LIST OF NODES
         Node nodeCurrentlyBeingSearched;
        
-        //don't need this
-        List<Node> searchedNodes = new List<Node>();
+      
      
         List<Node> stack = new List<Node>();
 
