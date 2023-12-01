@@ -17,7 +17,7 @@ public class ButtonChange : MonoBehaviour
     {
         if (!TryGetComponent<Image>(out buttonImage))
         {
-            Debug.Log("Image attatched");
+            Debug.Log("Image attached");
         }
     }
     void Start()
@@ -46,7 +46,7 @@ public class ButtonChange : MonoBehaviour
 
     void ButtonColorChange(Color color, int direction)
     {
-        if (direction == buttonDirection)
+        if (buttonImage != null && direction == buttonDirection)
         {
             buttonImage.color = color;
             timer = timeMax;

@@ -95,6 +95,10 @@ public class Player : MonoBehaviour
     }
     private void MoveToNode(Node node)
     {
+        if (node == null)
+        {
+            return;
+        }
         CurrentNode = TargetNode; 
 
         if (moving != true)
@@ -120,6 +124,7 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
+
                     EventManager.updateColorEvent(Color.red, 1);
                 }
             }
