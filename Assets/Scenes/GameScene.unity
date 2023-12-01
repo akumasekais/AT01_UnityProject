@@ -495,6 +495,7 @@ GameObject:
   - component: {fileID: 204307921}
   - component: {fileID: 204307920}
   - component: {fileID: 204307923}
+  - component: {fileID: 204307924}
   m_Layer: 5
   m_Name: LeftButton
   m_TagString: Untagged
@@ -633,6 +634,27 @@ MonoBehaviour:
   buttonDirection: 1
   mDirection: 1
   player: {fileID: 1220234472}
+--- !u!65 &204307924
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204307917}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &218081013
 GameObject:
   m_ObjectHideFlags: 0
@@ -915,11 +937,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parents:
   - {fileID: 1278480585}
-  searched: 0
   children:
   - {fileID: 1389258055}
   - {fileID: 1622374381}
   - {fileID: 700098638}
+  listChildren: []
+  Location: {x: 0, y: 0, z: 0}
 --- !u!135 &268955036
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1117,10 +1140,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parents:
   - {fileID: 1278480585}
-  searched: 0
   children:
   - {fileID: 1622374381}
   - {fileID: 1389258055}
+  listChildren: []
+  Location: {x: 0, y: 0, z: 0}
 --- !u!135 &355137589
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1399,10 +1423,11 @@ MonoBehaviour:
   parents:
   - {fileID: 1573181747}
   - {fileID: 268955034}
-  searched: 0
   children:
   - {fileID: 1853686109}
   - {fileID: 1504686828}
+  listChildren: []
+  Location: {x: 0, y: 0, z: 0}
 --- !u!135 &700098640
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1660,8 +1685,9 @@ MonoBehaviour:
   parents:
   - {fileID: 1622374381}
   - {fileID: 1389258055}
-  searched: 0
   children: []
+  listChildren: []
+  Location: {x: 0, y: 0, z: 0}
 --- !u!135 &836551684
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1787,7 +1813,7 @@ GameObject:
   - component: {fileID: 1059721682}
   - component: {fileID: 1059721681}
   - component: {fileID: 1059721680}
-  - component: {fileID: 1059721679}
+  - component: {fileID: 1059721684}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -1795,19 +1821,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1059721679
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1059721678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 492917e4cc685f04f97741c52883ef30, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
 --- !u!135 &1059721680
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1894,6 +1907,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1059721684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1059721678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 492917e4cc685f04f97741c52883ef30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  currentNode: {fileID: 1278480585}
+  startNode: {fileID: 1278480585}
+  player: {fileID: 1220234473}
+  started: 0
+  tempNode: {fileID: 0}
+  playerDestination: {fileID: 0}
 --- !u!1 &1147545521
 GameObject:
   m_ObjectHideFlags: 0
@@ -2308,11 +2340,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parents: []
-  searched: 0
   children:
   - {fileID: 268955034}
   - {fileID: 355137587}
   - {fileID: 1573181747}
+  listChildren: []
+  Location: {x: 0, y: 0, z: 0}
 --- !u!135 &1278480587
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2516,11 +2549,12 @@ MonoBehaviour:
   - {fileID: 268955034}
   - {fileID: 1573181747}
   - {fileID: 355137587}
-  searched: 0
   children:
   - {fileID: 1504686828}
   - {fileID: 836551682}
   - {fileID: 1853686109}
+  listChildren: []
+  Location: {x: 0, y: 0, z: 0}
 --- !u!135 &1389258057
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2644,8 +2678,9 @@ MonoBehaviour:
   - {fileID: 1389258055}
   - {fileID: 1622374381}
   - {fileID: 700098638}
-  searched: 0
   children: []
+  listChildren: []
+  Location: {x: 0, y: 0, z: 0}
 --- !u!135 &1504686830
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2767,10 +2802,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parents:
   - {fileID: 1278480585}
-  searched: 0
   children:
   - {fileID: 700098638}
   - {fileID: 1389258055}
+  listChildren: []
+  Location: {x: 0, y: 0, z: 0}
 --- !u!135 &1573181749
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2949,10 +2985,11 @@ MonoBehaviour:
   parents:
   - {fileID: 355137587}
   - {fileID: 268955034}
-  searched: 0
   children:
   - {fileID: 836551682}
   - {fileID: 1504686828}
+  listChildren: []
+  Location: {x: 0, y: 0, z: 0}
 --- !u!135 &1622374383
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3328,8 +3365,9 @@ MonoBehaviour:
   parents:
   - {fileID: 700098638}
   - {fileID: 1389258055}
-  searched: 0
   children: []
+  listChildren: []
+  Location: {x: 0, y: 0, z: 0}
 --- !u!135 &1853686111
 SphereCollider:
   m_ObjectHideFlags: 0

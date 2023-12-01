@@ -1,37 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.FilePathAttribute;
 
 public class Node : MonoBehaviour
 {
     // variable for tracking the parent of this node
     [Tooltip("Parent directly above node should always be first in array.")]
     [SerializeField] private Node[] parents;
-
     // a list of node variables representing all neighbour for this node
-    [Tooltip("Child directly below node should always be first in array.")]
-    //[SerializeField] private Node[] neighbours;
-    //boolean variabl for checking if node has been searched
-    public bool searched;
-   
-
     [SerializeField] private Node[] children;
-    private void Start()
-    {
-        //fimnd all neighbouring nodes and add them to neighbour
+    [Tooltip("Child directly below node should always be first in array.")]
 
-    }
-    
-    /// Returns the children of the node.
-    public Node[] Children { get { return children; } }
-   
-    /// Returns the parents of the node.
+    [SerializeField] public List<Node> listChildren = new List<Node>();
 
-    public Node[] Parents { get { return parents; } }
-    // public Node[] Neighbours { get { return neighbours; } }
+    public Node[] Children { get { return children; } }    /// Returns the children of the node.
+    public Node[] Parents { get { return parents; } }    /// Returns the parents of the node.
+
+    public Vector3 Location;
 
     private Vector3 offset = new Vector3(0, 1, 0);
 
+    private void Awake()
+    {
+        Location = transform.position;
+
+        foreach (Node node in children)
+        {
+            listChildren.Add(node);
+        }
+    }
+   
     private void OnDrawGizmos()
     {
         //Draws red lines between a parent and its children.
