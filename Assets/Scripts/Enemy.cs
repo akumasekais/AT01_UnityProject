@@ -117,18 +117,18 @@ public class Enemy : MonoBehaviour
 
             if (debugLoopLimit > 100)
             {
-                Debug.Log("Loop limit exeded");
                 targetFound = true;
+
             }
             if (tempNode != playerDestination | currNode != playerDestination)
             {
-
                 visitedNodes.Add(currNode);
                 childrenNodes = currNode.listChildren;
                 stackNodes.Remove(currNode);
 
                 if (childrenNodes.Count != 0)
                 {
+
                     foreach (Node node in childrenNodes)
                     {
                         if (!visitedNodes.Contains(node))
@@ -145,14 +145,16 @@ public class Enemy : MonoBehaviour
                     }
                     if (childrenNodes.Count != childrenVisited)
                     {
-                        currNode = stackNodes[stackNodes.Count - 1];
+                        if (stackNodes.Count > 0)
+                        {
+                            currNode = stackNodes[stackNodes.Count - 1];
+                        }
                     }
                     else
                     {
-                        Debug.LogError("Error: childrenNodes.Count = " + childrenNodes.Count + ", childrenVisited = " + childrenVisited); visitedNodes.Add(currNode);
-          
                         stackNodes.RemoveAt(stackNodes.Count - 1);
                         currNode = stackNodes[stackNodes.Count - 1];
+
                     }
 
                 }
@@ -173,9 +175,8 @@ public class Enemy : MonoBehaviour
 
                 if (currentNode != null)
                 {
-                    currentDir = currentNode.transform.position - transform.position;
-                    currentDir = currentNode.transform.position - transform.position;
-                    currentDir = currentDir.normalized;
+                    currentDir = (currentNode.transform.position - transform.position).normalized;
+
                 }
                 else
                 {

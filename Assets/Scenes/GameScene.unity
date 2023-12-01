@@ -1920,7 +1920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  currentNode: {fileID: 1278480585}
+  currentNode: {fileID: 0}
   startNode: {fileID: 1278480585}
   player: {fileID: 1220234473}
   started: 0
