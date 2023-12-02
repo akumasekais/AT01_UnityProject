@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.FilePathAttribute;
-
 public class Node : MonoBehaviour
 {
     // variable for tracking the parent of this node
